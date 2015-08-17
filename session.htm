@@ -16,7 +16,7 @@
     <script>
     	function increment(){
 	    	$.ajax({
-	    		url: 'http://ppp.dev/sandbox/cross_origin_session/count.php',
+	    		url: 'http://bar.com/count.php',
 	    		dataType:'json',
 	    		data:{PHPSESSID: localStorage.getItem('sid')},
 	    		success: function(response, status, xhr) {
