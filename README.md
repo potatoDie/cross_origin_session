@@ -13,7 +13,7 @@ A solution is to pass the session_id around yourself, as shown here.
 The following simple diagrams show the difference between the two situations:
 
 ###Same origin
-![Same origin: cookie accepted](origin-same.svg)
+![Same origin: cookie accepted](origin-same.png)
 
 ###Another origin
-![Another origin: cookie rejected](origin-cross.svg)
+![Another origin: cookie rejected](origin-cross.png)
