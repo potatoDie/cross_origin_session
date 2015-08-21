@@ -4,29 +4,45 @@
     <meta charset="utf-8">
     <title>Session lab</title>
     <link rel="stylesheet" href="http://ppp.dev/house.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   </head>
   <body>
     <h1>0</h1>
-    <p>Suppose this file resides on foo.com, and makes calls to a script
+    <p>Suppose this html document resides on foo.com, and makes AJAX calls to a script
      count.php on another domain, bar.com.
-     Cookies do not work in this cross-domain setting. The solution is to pass the session_id yourself.
+     Cookies do not work in this cross-domain setting. The solution is to pass the session_id manualy.
     </p>
+
   	<button>More!</button>
+
     <script>
-    	function increment(){
-	    	$.ajax({
-	    		url: 'http://bar.com/count.php',
-	    		dataType:'json',
-	    		data:{PHPSESSID: localStorage.getItem('sid')},
-	    		success: function(response, status, xhr) {
-	    			localStorage.setItem('sid', response.sid);
-	    			$('h1').html(response.count);
-	    		}
-	    	});
-    	};
-		
-		$('button').on('click', increment );
+
+      function increment(){
+        
+        var url = 'http://bar.com/count.php';
+        
+        var xhr = new XMLHttpRequest();
+
+        // Use default 'text' datatype, to avoid CORS issues
+        // Parse the text with JSON/parse, when it arrives
+
+        xhr.onreadystatechange = function(){
+          if (this.readyState == this.DONE ) {
+            if (this.status >= 200 && this.status < 300){
+              var response = JSON.parse(this.responseText);
+              localStorage.setItem('sid', response.sid);
+              document.querySelector('h1').innerHTML = response.count;
+            }
+          }
+        }
+        
+        xhr.open('GET', url + "?PHPSESSID=" + localStorage.getItem('sid'));
+
+        xhr.send();
+
+      }
+
+		  document.querySelector('button').addEventListener('click', increment );
+
     </script>
   </body>
 </html>
